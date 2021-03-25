@@ -1,0 +1,7 @@
+.container.authentication .text-field {
+  margin-bottom: 15px;
+}
+
+.container.authentication .authentication-form {
+  max-width: 500px;
+}
