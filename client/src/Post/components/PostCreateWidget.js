@@ -4,14 +4,24 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
+import Dropzone from "react-dropzone";
+/*
+import { Icon } from "@material-ui/core";
+        <p className="ant-upload-drag-icon">
+          <Icon type="inbox" />
+        </p>
+        <p className="ant-upload-text">
+          Click here or drag and drop to upload image
+        </p>
+*/ const useStyles = makeStyles(
+  (theme) => ({
+    root: {
+      "& > *": {
+        margin: theme.spacing(1),
+      },
     },
-  },
-}));
+  })
+);
 
 const PostCreateWidget = ({ addPost }) => {
   const [state, setState] = useState({ name: "", title: "", content: "" });
@@ -34,6 +44,10 @@ const PostCreateWidget = ({ addPost }) => {
       ...state,
       [evt.target.name]: value,
     });
+  };
+
+  const fileChangeHandler = (event) => {
+    setState({ ...state, image: event.target.files[0] });
   };
 
   return (
@@ -60,6 +74,10 @@ const PostCreateWidget = ({ addPost }) => {
         name="content"
         onChange={handleChange}
       />
+      <div>
+        <p>Post Image (Optional)</p>
+        <input type="file" onChange={fileChangeHandler} />
+      </div>
       <Button
         className="mt-4"
         variant="contained"

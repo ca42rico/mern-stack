@@ -1,0 +1,39 @@
+.post-detail-page {
+}
+
+.post-detail-page h1 {
+  font-weight: 800;
+  font-size: 68px;
+  text-transform: capitalize;
+}
+
+.post-detail-page .content {
+  margin: 25px 0;
+  line-height: 30px;
+}
+
+.post-detail-page .name {
+  font-style: italic;
+}
+
+.post-detail-page .main {
+  margin: auto;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 900px) {
+  .post-detail-page .main {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .post-detail-page img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+}

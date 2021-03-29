@@ -14,24 +14,20 @@ export function addPost(post) {
 }
 
 export function addPostRequest(post) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const token = getState().authentication.user
       ? getState().authentication.user.token
       : null;
-    return callApi(
-      "posts",
-      "post",
-      {
-        post: {
-          name: post.name,
-          title: post.title,
-          content: post.content,
-        },
-      },
-      token
-    ).then((res) => {
-      if (res && res.post) dispatch(addPost(res.post));
-    });
+
+    const data = new FormData();
+    data.append("name", post.name);
+    data.append("title", post.title);
+    data.append("content", post.content);
+    data.append("image", post.image);
+
+    const result = await callApi("posts", "post", data, token, true);
+    if (result && result.post) dispatch(addPost(result.post));
+    return result;
   };
 }
 
@@ -43,26 +39,26 @@ export function addPosts(posts) {
 }
 
 export function fetchPosts() {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const token = getState().authentication.user
       ? getState().authentication.user.token
       : null;
-    return callApi("posts", "get", null, token).then((res) => {
-      console.log("res:", res);
-      if (res && res.posts) dispatch(addPosts(res.posts));
-    });
+
+    const result = await callApi("posts", "get", null, token);
+    if (result && result.posts) dispatch(addPosts(result.posts));
+    return result;
   };
 }
 
 export function fetchPost(cuid) {
-  return (dispatch, getState) => {
-    console.log("fetch On");
+  return async (dispatch, getState) => {
     const token = getState().authentication.user
       ? getState().authentication.user.token
       : null;
-    return callApi(`posts/${cuid}`, "get", null, token).then((res) => {
-      if (res && res.post) dispatch(addPost(res.post));
-    });
+
+    const result = await callApi(`posts/${cuid}`, "get", null, token);
+    if (result && result.post) dispatch(addPost(result.post));
+    return result;
   };
 }
 
