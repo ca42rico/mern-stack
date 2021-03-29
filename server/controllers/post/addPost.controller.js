@@ -32,11 +32,11 @@ module.exports = async (req, res) => {
 
 	try {
 		await newPost.save();
-		return res
+		res
 			.status(201)
 			.send({ post: { ...newPost._doc, isDelectable: true } });
 	} catch (err) {
 		console.error(err);
-		return res.status(500).send(err);
+		res.status(500).send(err);
 	}
 };

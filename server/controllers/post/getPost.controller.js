@@ -7,16 +7,23 @@ const Post = require("../../models/post");
  * @returns void
  */
 module.exports = async (req, res) => {
-	const post = await Post.findOne({ cuid: req.params.cuid }).exec();
+	try {
+		const post = await Post.findOne({ cuid: req.params.cuid }).exec();
 
-	if (post) {
-		res.status(200).send({
-			post: {
-				...post._doc,
-				isDelectable: req.user ? "" + post.author === "" + req.user._id : false,
-			},
-		});
-	} else {
-		res.sendStatus(404);
+		if (post) {
+			res.status(200).send({
+				post: {
+					...post._doc,
+					isDelectable: req.user
+						? "" + post.author === "" + req.user._id
+						: false,
+				},
+			});
+		} else {
+			res.sendStatus(404);
+		}
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(500);
 	}
 };

@@ -11,15 +11,15 @@ module.exports = async (req, res) => {
 		const posts = await Post.find().sort("-dateAdded").exec();
 
 		if (req.user) {
-			const posts_ = posts.map((post) => ({
+			const posts_with_isDelectable = posts.map((post) => ({
 				...post._doc,
 				isDelectable: "" + post.author === "" + req.user._id,
 			}));
-			return res.json({ posts: posts_ });
+			return res.json({ posts: posts_with_isDelectable });
 		}
-		return res.json({ posts });
+		res.json({ posts });
 	} catch (err) {
-		return res.status(500).send(err);
+		console.error(err);
+		res.status(500).send(err);
 	}
 };
-

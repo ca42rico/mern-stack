@@ -9,11 +9,17 @@ const Post = require("../../models/post");
 module.exports = async (req, res) => {
 	const post = await Post.findOne({
 		cuid: req.params.cuid,
-		author: req.user._id,
 	}).exec();
+
 	if (post) {
-		await post.remove();
-		return res.sendStatus(204);
+		try {
+			if ("" + post.author !== "" + req.user._id) return res.sendStatus(403);
+			await post.remove();
+			return res.sendStatus(204);
+		} catch (err) {
+			console.error(err);
+			return res.sendStatus(500);
+		}
 	}
 	return res.sendStatus(404);
 };
