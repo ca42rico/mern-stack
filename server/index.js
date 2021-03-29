@@ -1,18 +1,18 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const passport = require("passport");
 
 const db = require("./db");
 const postsRoutes = require("./routes/post.routes");
 const usersRoutes = require("./routes/user.routes");
+require("./config");
 
 const app = express();
 const apiPort = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json({ limit: "10mb" }));
 
 app.use("/api", postsRoutes);
 app.use("/api", usersRoutes);

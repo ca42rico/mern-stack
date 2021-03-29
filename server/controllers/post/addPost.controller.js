@@ -11,11 +11,16 @@ const Post = require("../../models/post");
  * @returns void
  */
 module.exports = async (req, res) => {
-	if (!req.body.post.name || !req.body.post.title || !req.body.post.content) {
+	if (!req.body || !req.body.name || !req.body.title || !req.body.content) {
 		return res.sendStatus(400);
 	}
 
-	const newPost = new Post(req.body.post);
+	const newPost = new Post({
+		image: req.image,
+		title: req.body.title,
+		name: req.body.name,
+		content: req.body.content,
+	});
 
 	newPost.title = sanitizeHtml(newPost.title);
 	newPost.name = sanitizeHtml(newPost.name);
@@ -23,6 +28,7 @@ module.exports = async (req, res) => {
 	newPost.author = req.user._id;
 	newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
 	newPost.cuid = cuid();
+	if (req.image) newPost.image = req.image;
 
 	try {
 		await newPost.save();

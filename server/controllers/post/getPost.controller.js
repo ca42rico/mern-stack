@@ -10,15 +10,13 @@ module.exports = async (req, res) => {
 	const post = await Post.findOne({ cuid: req.params.cuid }).exec();
 
 	if (post) {
-		if (req.user) {
-			const post_ = {
-				...post,
-				isDelectable: "" + post.author === "" + req.user._id,
-			};
-			return res.status(200).send({ post: post_ });
-		}
-		return res.status(200).send({ post });
+		res.status(200).send({
+			post: {
+				...post._doc,
+				isDelectable: req.user ? "" + post.author === "" + req.user._id : false,
+			},
+		});
+	} else {
+		res.sendStatus(404);
 	}
-
-	return res.sendStatus(404);
 };
