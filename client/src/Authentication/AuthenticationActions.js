@@ -13,7 +13,7 @@ export function login(user) {
 
 export function loginRequest(user, callback) {
   return (dispatch) => {
-    callApi("login", "post", {
+    callApi("/users/login", "post", {
       user: {
         username: user.username,
         password: user.password,
@@ -38,7 +38,7 @@ export function signin(user) {
 
 export function signinRequest(user, callback) {
   return (dispatch) => {
-    callApi("signin", "post", {
+    callApi("/users/signin", "post", {
       user: {
         username: user.username,
         password: user.password,
