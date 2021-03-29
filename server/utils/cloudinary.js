@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+
 const config = require("../config");
 
 cloudinary.config({
@@ -11,7 +12,11 @@ exports.upload = (file) => {
 	return new Promise((resolve) => {
 		cloudinary.uploader.upload(
 			file,
-			{ width: 450, height: 400, crop: "fill" },
+			{
+				width: config.cloudinary.image_width,
+				height: config.cloudinary.image_height,
+				crop: "fill",
+			},
 			(error, result) => {
 				if (result)
 					resolve({
