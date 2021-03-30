@@ -11,7 +11,7 @@ import LoginPage from "./Authentication/pages/LoginPage";
 import SignInPage from "./Authentication/pages/SignInPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Nav/components/Navbar";
-import { login } from "./Authentication/AuthenticationActions";
+import { login } from "./actions/AuthenticationActions";
 import config from "./config";
 
 const theme = createMuiTheme({
@@ -40,7 +40,6 @@ function App({ store }) {
             <BrowserRouter>
               <Navbar />
               <Switch>
-                <Route path={config.HOME_PAGE} exact component={PostListPage} />
                 <Route
                   path="/posts/:cuid/:slug"
                   exact
@@ -48,6 +47,7 @@ function App({ store }) {
                 />
                 <Route path={config.LOGIN_PAGE} exact component={LoginPage} />
                 <Route path={config.SIGNIN_PAGE} exact component={SignInPage} />
+                <Route path={config.HOME_PAGE} component={PostListPage} />
               </Switch>
             </BrowserRouter>
           </div>
@@ -62,11 +62,3 @@ App.propTypes = {
 };
 
 export default App;
-
-/*
-TODO:
-* if <in store > bearer authentication && user
-	then
-
-
-*/

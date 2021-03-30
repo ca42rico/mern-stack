@@ -18,7 +18,7 @@ export function loginRequest(user, callback) {
         username: user.username,
         password: user.password,
       },
-    }).then((res, err) => {
+    }).then((res) => {
       if (res && res.token && res.username) {
         dispatch(login(res));
         localStorage.setItem("username", res.username);
@@ -43,10 +43,16 @@ export function signinRequest(user, callback) {
         username: user.username,
         password: user.password,
       },
-    }).then((res, err) => {
+    }).then((res) => {
       if (res && res.token && res.username) {
         dispatch(signin(res));
+        localStorage.setItem("username", res.username);
+        localStorage.setItem("token", res.token);
         callback();
+      } else if (res && res.status) {
+        callback(res.status);
+      } else {
+        callback("Error: user not registered");
       }
     });
   };

@@ -35,7 +35,9 @@ function PostListItem({ post, onDelete }) {
         </Typography>
       </CardContent>
       {post.image && (
-        <div style={{ padding: "20px" }}>
+        <div
+          style={{ padding: "20px", display: "flex", justifyContent: "center" }}
+        >
           <img src={post.image} width="250" height="200" />
         </div>
       )}

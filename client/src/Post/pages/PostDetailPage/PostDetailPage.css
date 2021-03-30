@@ -1,19 +1,11 @@
-.post-detail-page {
-}
-
 .post-detail-page h1 {
   font-weight: 800;
   font-size: 68px;
-  text-transform: capitalize;
 }
 
 .post-detail-page .content {
   margin: 25px 0;
   line-height: 30px;
-}
-
-.post-detail-page .name {
-  font-style: italic;
 }
 
 .post-detail-page .main {

@@ -3,8 +3,8 @@ import * as ReactDOM from "react-dom";
 import { combineReducers, createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import posts from "./Post/PostReducer";
-import authentication from "./Authentication/AuthenticationReducers";
+import posts from "./reducers/PostReducer";
+import authentication from "./reducers/AuthenticationReducers";
 import App from "./App";
 import "./index.css";
 

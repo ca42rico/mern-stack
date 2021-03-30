@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import { logoutRequest } from "../../Authentication/AuthenticationActions";
+import { logoutRequest } from "../../actions/AuthenticationActions";
 import "./Navbar.css";
 import config from "../../config";
 
@@ -38,25 +38,19 @@ function Navbar() {
             Home
           </Link>
         </Typography>
-        {history.location.pathname !== config.LOGIN_PAGE &&
-        history.location.pathname !== config.SIGNIN_PAGE ? (
-          !user ? (
-            <Typography variant="h6">
-              <Link
-                className="text-white"
-                onClick={goToPage(config.LOGIN_PAGE)}
-              >
-                Login
-              </Link>
-            </Typography>
-          ) : (
-            <Typography variant="h6">
-              <Link className="text-white" onClick={handleLogout}>
-                Logout
-              </Link>
-            </Typography>
-          )
-        ) : null}
+        {!user ? (
+          <Typography variant="h6">
+            <Link className="text-white" onClick={goToPage(config.LOGIN_PAGE)}>
+              Login
+            </Link>
+          </Typography>
+        ) : (
+          <Typography variant="h6">
+            <Link className="text-white" onClick={handleLogout}>
+              Logout
+            </Link>
+          </Typography>
+        )}
       </Toolbar>
     </AppBar>
   );

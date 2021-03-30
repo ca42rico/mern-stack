@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, InputLabel, TextField } from "@material-ui/core";
-// Import Components
-// Import Actions
+import { useDispatch } from "react-redux";
 
-import Logo from "../../logo.svg";
 import { useHistory } from "react-router-dom";
-import { signinRequest } from "../AuthenticationActions";
+import { signinRequest } from "../../actions/AuthenticationActions";
+import config from "../../config";
+import SignInComponent from "../components/SignInComponent";
 import "./AuthenticationPage.css";
 
 const SignInPage = () => {
@@ -16,91 +13,52 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const [repeat_password, setRepeatPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const [sending, setSending] = useState(false);
 
   const history = useHistory();
-  const goToHomepage = () => history.push("/");
+  const goToHomepage = () => history.push(config.HOME_PAGE);
 
   const handleSignIn = () => {
     if (
       username &&
-      username.length >= 6 &&
+      username.length >= 3 &&
       password &&
       password.length >= 6 &&
       repeat_password &&
-      repeat_password.length >= 6 &&
       password === repeat_password
     ) {
       setErrors("");
-      dispatch(signinRequest({ username, password }, goToHomepage));
+      setSending(true);
+      dispatch(
+        signinRequest({ username, password }, (err) => {
+          if (err) {
+            setSending(false);
+            setErrors(err);
+          } else goToHomepage();
+        })
+      );
     } else {
-      setErrors("Errors");
+      if (username && username.length < 3) {
+        setErrors("Username too short");
+      } else if (password && password.length < 6) {
+        setErrors("Password too short");
+      } else if (password !== repeat_password) {
+        setErrors("Repeat password not matching");
+      } else {
+        setErrors("Errors");
+      }
     }
   };
 
   return (
-    <div className="container authentication">
-      <div className="row">
-        <div className="col-12 d-flex align-items-center">
-          <img
-            className="mx-3"
-            src={Logo}
-            alt="Logo"
-            style={{ height: "72px" }}
-          />
-          <h1 className="mt-4">Alaya Blog</h1>
-        </div>
-      </div>
-      <hr />
-      <div
-        className={`d-flex flex-column mx-auto my-4 w-100 authentication-form`}
-      >
-        <div className="row" style={{ padding: "15px 0" }}>
-          <div className="col-12">
-            <h3 className="mt-4">Sign In</h3>
-          </div>
-        </div>
-        <TextField
-          className="text-field"
-          variant="filled"
-          label="Username"
-          name="username"
-          onChange={(event) => setUsername(event.target.value)}
-          placeholder="Insert a username"
-        />
-        <TextField
-          className="text-field"
-          variant="filled"
-          label="Password"
-          name="password"
-          onChange={(event) => setPassword(event.target.value)}
-          type="password"
-          placeholder="Insert a password"
-        />
-        <TextField
-          className="text-field"
-          variant="filled"
-          label="Password"
-          name="password"
-          onChange={(event) => setRepeatPassword(event.target.value)}
-          type="password"
-          placeholder="Repeat the password"
-        />
-        <Button
-          className="mt-4"
-          variant="contained"
-          color="primary"
-          disabled={!username || !password || !repeat_password}
-          onClick={() => handleSignIn(username, password)}
-        >
-          Sign In
-        </Button>
-        {errors && (
-          <InputLabel error={true} style={{ margin: "20px 0" }}>
-            {errors}
-          </InputLabel>
-        )}
-      </div>
-    </div>
+    <SignInComponent
+      setUsername={(event) => setUsername(event.target.value)}
+      setPassword={(event) => setPassword(event.target.value)}
+      setRepeatPassword={(event) => setRepeatPassword(event.target.value)}
+      disableSubmit={!username || !password || !repeat_password || sending}
+      submit={() => handleSignIn(username, password)}
+      errors={errors}
+    />
   );
 };
 

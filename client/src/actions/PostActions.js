@@ -11,7 +11,7 @@ export function addPost(post) {
   };
 }
 
-export function addPostRequest(post) {
+export function addPostRequest(post, callback) {
   return async (dispatch, getState) => {
     const token = getState().authentication.user
       ? getState().authentication.user.token
@@ -24,7 +24,12 @@ export function addPostRequest(post) {
     data.append("image", post.image);
 
     const result = await callApi("posts", "post", data, token, true);
-    if (result && result.post) dispatch(addPost(result.post));
+    if (result && result.post) {
+      dispatch(addPost(result.post));
+      callback();
+    } else {
+      callback("Error: post not added");
+    }
     return result;
   };
 }

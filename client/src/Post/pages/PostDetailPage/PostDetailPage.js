@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { fetchPost } from "../../PostActions";
 import { useParams } from "react-router-dom";
+
+import { fetchPost } from "../../../actions/PostActions";
 import "./PostDetailPage.css";
 
 export function PostDetailPage() {
@@ -20,15 +20,17 @@ export function PostDetailPage() {
     <div className="container post-detail-page">
       <div className="row">
         <div className="col-12 main">
+          <label className="name">
+            {new Date(post.dateAdded).toLocaleDateString()}, by {post.name}
+          </label>
           <h1>{post.title}</h1>
-          <p className="name">By {post.name}</p>
           {post.image && <img src={post.image} width="450" height="400" />}
           <p className="content">{post.content}</p>
         </div>
       </div>
     </div>
   ) : (
-    <div>Loading...</div>
+    <h3 style={{ padding: "15px" }}>Loading...</h3>
   );
 }
 export default PostDetailPage;

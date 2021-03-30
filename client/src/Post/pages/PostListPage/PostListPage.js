@@ -8,7 +8,7 @@ import {
   addPostRequest,
   deletePostRequest,
   fetchPosts,
-} from "../../PostActions";
+} from "../../../actions/PostActions";
 import Logo from "../../../logo.svg";
 import "./PostListPage.css";
 
@@ -27,25 +27,20 @@ const PostListPage = ({ showAddPost }) => {
     }
   };
 
-  const handleAddPost = (post) => {
-    dispatch(addPostRequest(post));
+  const handleAddPost = (post, callback) => {
+    dispatch(addPostRequest(post, (err) => callback(err)));
   };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col-12 d-flex align-items-center">
-          <img
-            className="mx-3"
-            src={Logo}
-            alt="Logo"
-            style={{ height: "72px" }}
-          />
+          <img className="mx-3 logo" src={Logo} alt="Logo" />
           <h1 className="mt-4">Alaya Blog</h1>
         </div>
       </div>
       <hr />
-      <div className="main">
+      <div className={`main ${user ? "" : "single"}`}>
         {user && (
           <div className="col-12">
             <PostCreateWidget

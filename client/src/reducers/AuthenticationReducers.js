@@ -1,6 +1,5 @@
-import { LOGIN, LOGOUT, SIGNIN } from "./AuthenticationActions";
+import { LOGIN, LOGOUT, SIGNIN } from "../actions/AuthenticationActions";
 
-// Initial State
 const initialState = { user: null };
 
 const UserReducer = (state = initialState, action) => {
@@ -25,5 +24,4 @@ const UserReducer = (state = initialState, action) => {
   }
 };
 
-// Export Reducer
 export default UserReducer;
