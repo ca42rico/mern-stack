@@ -1,4 +1,4 @@
-const Post = require("../../models/post");
+const Post = require("../../services/post.service");
 
 /**
  * Get all posts
@@ -8,7 +8,7 @@ const Post = require("../../models/post");
  */
 module.exports = async (req, res) => {
 	try {
-		const posts = await Post.find().sort("-dateAdded").exec();
+		const posts = await Post.getPosts();
 
 		if (req.user) {
 			const posts_with_isDelectable = posts.map((post) => ({

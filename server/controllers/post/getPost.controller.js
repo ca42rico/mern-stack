@@ -1,4 +1,4 @@
-const Post = require("../../models/post");
+const Post = require("../../services/post.service");
 
 /**
  * Get a single post
@@ -8,7 +8,9 @@ const Post = require("../../models/post");
  */
 module.exports = async (req, res) => {
 	try {
-		const post = await Post.findOne({ cuid: req.params.cuid }).exec();
+		if (!req.params.cuid) return res.sendStatus(400);
+
+		const post = await Post.getPost(req.params.cuid);
 
 		if (post) {
 			res.status(200).send({

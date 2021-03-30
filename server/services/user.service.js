@@ -19,7 +19,7 @@ const getUser = async (username) => await User.findOne({ username }).exec();
  * Save new user to DB
  * @param username
  * @param password
- * @returns void
+ * @returns User
  */
 const addUser = async (username, password) => {
 	const newUser = new User();
@@ -37,7 +37,7 @@ const addUser = async (username, password) => {
 /**
  * Delete an user by username
  * @param username
- * @returns User
+ * @returns void
  */
 const deleteUser = async (username) => {
 	const user = await User.findOne({ username }).exec();

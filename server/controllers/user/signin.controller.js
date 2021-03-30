@@ -25,14 +25,14 @@ module.exports = async (req, res) => {
 
 	const userResult = await User.addUser(username, password);
 	if (userResult.err) {
-		return res.sendStatus(409);
+		return res.status(409).send({ status: "Username already used" });
 	}
 
 	const token = jwt.sign({ ...userResult }, config.secret, {
 		expiresIn: config.tokenExpirationDeadline,
 	});
 
-	return res.status(200).send({
+	return res.status(201).send({
 		token,
 		username: userResult.username,
 	});

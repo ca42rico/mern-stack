@@ -5,7 +5,7 @@ const passport = require("passport");
 require("./db");
 const config = require("./config");
 const buildRoutes = require("./routes/");
-const configPassport = require("./utils/passport")
+const configPassport = require("./utils/passport");
 
 const app = express();
 const apiPort = config.port || 3000;
@@ -19,5 +19,7 @@ app.use(passport.session());
 configPassport(passport);
 
 app.use("/api", buildRoutes);
+
+app.use((err, req, res) => res.sendStatus(500));
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
