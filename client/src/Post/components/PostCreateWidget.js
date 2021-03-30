@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import Dropzone from "react-dropzone";
 import CloseIcon from "@material-ui/icons/Close";
 import { Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
